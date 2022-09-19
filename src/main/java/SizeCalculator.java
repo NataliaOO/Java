@@ -8,9 +8,9 @@ public class SizeCalculator {
     public  static String getHumanReadableSize(long size) {
 
         for (int i = 0; i < sizeMultipliers.length; i++) {
-            double value = size / Math.pow(1024, i);
+            double value = ((double) size) / Math.pow(1024, i);
             if (value < 1024) {
-                return Math.round(value) + ""
+                return Math.round(value * 100) / 100. + ""
                         + sizeMultipliers[i] + (i > 0 ? "b" : "");
             }
         }

@@ -4,16 +4,16 @@ import java.util.concurrent.ForkJoinPool;
 
 public class Main {
 
-    private static final String FOLDER_PATH = "C:\\Users\\nuary\\Documents\\НАСТОЛКИ";
-
     public static void main(String[] args) {
 
-        File file = new File(FOLDER_PATH);
-        Node root = new Node(file);
+        ParametersBag bag = new ParametersBag(args);
+
+        File file = new File(bag.getPath());
+        Node root = new Node(file, bag.getLimit());
 
         FolderSizeCalculator calculator = new FolderSizeCalculator(root);
         new ForkJoinPool().invoke(calculator);
-        System.out.println(root.getSize());
+        System.out.println(root);
     }
 
     public static long getFolderSize(File folder) {
