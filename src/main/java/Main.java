@@ -1,5 +1,6 @@
 import java.io.File;
 import java.nio.file.Files;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
 
@@ -7,7 +8,8 @@ public class Main {
     public static void main(String[] args) {
         File file = new File(folderPath);
 
-        System.out.println(getFolderSize(file));
+        FolderSizeCalculator calculator = new FolderSizeCalculator(file);
+        System.out.println(new ForkJoinPool().invoke(calculator));
     }
 
     public static long getFolderSize(File folder) {
