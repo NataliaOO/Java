@@ -29,6 +29,8 @@ public class EncryptorThread  extends Thread {
             ZipFile zipFile = new ZipFile(archiveName);
             if (file.isDirectory()) {
                 zipFile.addFolder(file, parameters);
+            } else {
+                zipFile.addFile(file, parameters);
             }
         }
         catch (Exception ex) {
@@ -36,6 +38,10 @@ public class EncryptorThread  extends Thread {
         }
         onFinish();
     }
+
+
+
+
 
     private void onStart() {
         form.setButtonsEnabled(false);

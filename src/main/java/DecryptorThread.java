@@ -1,4 +1,5 @@
 import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
 
@@ -28,8 +29,12 @@ public class DecryptorThread extends Thread {
             ZipFile zipFile = new ZipFile(file);
             zipFile.setPassword(password);
             zipFile.extractAll(outputPath);
-        }
-        catch (Exception ex) {
+
+        } catch (ZipException ex) {
+            form.showWarning("Неверный пароль");
+            form.setButtonsEnabled(true);
+            return;
+        } catch (Exception ex) {
             form.showWarning(ex.getMessage());
         }
         onFinish();

@@ -99,8 +99,7 @@ public class GUIForm {
                     return;
                 }
 
-                String password = JOptionPane.showInputDialog("Введите пароль: ");
-
+                String password = showPassword();
                 if (password == null || password.length() == 0) {
                     showWarning("Пароль не указан!");
                     return;
@@ -113,6 +112,22 @@ public class GUIForm {
 
             }
         });
+    }
+
+    private String showPassword() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Введите пароль: ");
+        JPasswordField pass = new JPasswordField(10);
+        panel.add(label);
+        panel.add(pass);
+        String[] options = new String[]{"Ok","Cancel"};
+        int option = JOptionPane.showOptionDialog(
+                null, panel,"Ввод пароля", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[1]);
+
+        if (option != 0) return null;
+
+        return new String(pass.getPassword());
     }
 
     public  JPanel getRootPanel() {
