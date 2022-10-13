@@ -12,6 +12,7 @@ public class GUIForm {
     private JTextField failPath;
     private JButton selectButton;
     private JButton actionButton;
+    private JProgressBar progressBar;
     private File selectedFile;
 
     private boolean encryptorFileSelected = false;
@@ -104,12 +105,13 @@ public class GUIForm {
                     showWarning("Пароль не указан!");
                     return;
                 }
+
+                progressBar.setVisible(true);
                 if (encryptorFileSelected) {
                     decryptFile(password);
                 } else {
                     encryptFile(password);
                 }
-
             }
         });
     }
@@ -172,17 +174,16 @@ public class GUIForm {
     }
 
     public void showWarning(String message) {
+        progressBar.setVisible(false);
         JOptionPane.showMessageDialog(
                 rootPanel, message,"Ошибка", JOptionPane.WARNING_MESSAGE);
     }
 
     public void showFinished() {
+        progressBar.setVisible(false);
         JOptionPane.showMessageDialog(
                 rootPanel, encryptorFileSelected ?
                         "Расшифровка завершена" : "Шифрование завершено",
                 "Завершено", JOptionPane.INFORMATION_MESSAGE);
     }
-
-
-
 }

@@ -25,7 +25,7 @@
             <constraints/>
             <properties>
               <editable value="false"/>
-              <preferredSize width="500" height="30"/>
+              <preferredSize width="560" height="30"/>
             </properties>
           </component>
           <component id="cf242" class="javax.swing.JButton" binding="selectButton">
@@ -43,6 +43,20 @@
           </component>
         </children>
       </grid>
+      <component id="fcb20" class="javax.swing.JProgressBar" binding="progressBar">
+        <constraints border-constraint="South"/>
+        <properties>
+          <alignmentX value="0.5"/>
+          <alignmentY value="0.5"/>
+          <borderPainted value="true"/>
+          <indeterminate value="true"/>
+          <inheritsPopupMenu value="false"/>
+          <orientation value="0"/>
+          <preferredSize width="200" height="15"/>
+          <value value="0"/>
+          <visible value="false"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
