@@ -1,7 +1,7 @@
-# Day 00 – Java bootcamp
-### Management structures and arrays
+# Day 01 – Java bootcamp
+### OOP/Collections
 
-*Takeaways: Today you will learn the basics of solving both trivial and more challenging business tasks using basic Java language constructs.*
+*Takeaways: Today you will learn how to correctly model the operation of different collections and create a full-fledged money transfer application.*
 
 💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
 
@@ -11,26 +11,34 @@
 2. [Chapter II](#chapter-ii) \
 	2.1. [General Rules](#general-rules)
 3. [Chapter III](#chapter-iii) \
-	3.1. [Rules of the Day](#rules-of-the-day)
+	3.1. [Introduction to exercises](#introduction-to-exercises)
 4. [Chapter IV](#chapter-iv) \
-	4.1. [Exercise 00 – Sum of Digits](#exercise-00-sum-of-digits)
+	4.1. [Exercise 00 – Models](#exercise-00-models)
 5. [Chapter V](#chapter-v) \
-	5.1. [Exercise 01 – Really Prime Number](#exercise-01-really-prime-number)
+	5.1. [Exercise 01 – ID Generator](#exercise-01-id-generator)
 6. [Chapter VI](#chapter-vi) \
-	6.1. [Exercise 02 – Endless Sequence (or not?)](#exercise-02-endless-sequence-or-not)
+	6.1. [Exercise 02 – List of Users](#exercise-02-list-of-users)
 7. [Chapter VII](#chapter-vii) \
-	7.1. [Exercise 03 – A Little Bit of Statistics](#exercise-03-a-little-bit-of-statistics)
+	7.1. [Exercise 03 – List of Transactions](#exercise-03-list-of-transactions)
 8. [Chapter VIII](#chapter-viii) \
-	8.1. [Exercise 04 – A Bit More of Statistics](#exercise-04-a-bit-more-of-statistics)
+	8.1. [Exercise 04 – Business Logic](#exercise-04-business-logic)
 9. [Chapter IX](#chapter-ix) \
-	9.1. [Exercise 05 – Schedule](#exercise-05-schedule)
-
+	9.1. [Exercise 05 – Menu](#exercise-05-menu)
 
 # Chapter I 
 ### Preamble
+Domain modeling is the most challenging task in software development. Correct solution of this task ensures flexibility of the implemented system.
+Programming languages supporting the concept of object-oriented programming (OOP) allow to effectively divide business processes into logical components called classes.
+Each class must comply with SOLID principles:
+1.	Single responsibility principle: a class contains a single logically related functionality (a coffee machine cannot clean and monitor changes in the call stack; its purpose is to make coffee).
+2.	Open-closed principle: each class may provide an option to extend its functionality. However, such an extension should not require modification of the source class code.
+3.	Liskov substitution principle: derived classes only ADD to the functionality of a source class without modifying it.
+4.	Interface separation principle: There are many points (interfaces) that describe a logically related behavior. There is no such thing as a general-purpose interface.
+5.	Dependency inversion principle: a system must not depend on specific entities; all dependencies are based on abstractions (interfaces).
 
-![java-man](misc/images/java-man.png)<br>
-Java Man, or *Homo erectus erectus*
+Today you should focus on the first SOLID principle.
+
+![javanepunchman](misc/images/javanepunchman.png)
 
 # Chapter II
 ### General Rules
@@ -46,254 +54,297 @@ Java Man, or *Homo erectus erectus*
 - You should not leave any files in your src directory other than those explicitly specified in the exercise instructions. It is recommended that you modify your .gitignore to avoid accidents.
 - If you need accurate output in your programs, it is forbidden to display precalculated output instead of running the exercise correctly.
 - Got a question? Ask your neighbor to the right. Otherwise, try your neighbor on the left.
-- Your reference guide: friends / Internet / Google. And one more thing. For every question you have, there's an answer on Stackoverflow. Learn how to ask questions properly.
-- Read the examples carefully. They may require things not otherwise specified in the subject.
-- Use "System.out" for output.
+- Your reference guide: other peers / Internet / Google. And one more thing. For every question you have, there's an answer on Stackoverflow. Learn how to ask questions properly.
+- Read the examples carefully. They may require things not specified in the subject.
+- Use System.out for output.
 - And may the Force be with you!
-- Never leave till tomorrow what you can do today ;)
+- Never leave for tomorrow what you can do today ;)
 
 # Chapter III
-###  Rules of the Day
-- User-defined methods and classes are prohibited for all tasks of the day, except for user-defined static functions and procedures in the main class file of the solution.
-- All tasks include a list of ALLOWED language constructs for the specific task.
-- System::exit can be used for all tasks.
+### Introduction to exercises
+An internal money transfer system is an integral part of many business applications. 
 
-- All tasks include an example of how the application works. The implemented solution must be identical to the specified output example for the current input data.
-- For illustration purposes, user-entered data in task examples is preceded by an arrow (->). Do not consider these arrows when implementing a solution!
+Your task today is to automate a business process related to transfers of certain amounts between participants of our system.
 
-P.S. Some problems require a non-trivial approach due to the limitations mentioned above. These limitations will teach you how to find solutions for automating real business processes.
+Each user of the system can transfer a certain amount of money to another user. We need to make sure that even if we lose the history of incoming and outgoing transfers for a particular user, we will still be able to recover this information.
+
+In the system, all money transactions are stored in the form of debit/credit pairs. For example, John transferred $500 to Mike. The system stores the transaction for both users:
+```java
+John -> Mike, -500, OUTCOME, transaction ID
+Mike -> John, +500, INCOME, transaction ID
+```
+To restore the connection within such pairs, the identifiers of each transaction should be used.
+
+Of course, in such a complex system, a transfer entry may be lost — it may not be recorded for one of the users (to emulate and debug such a situation, a developer must be able to remove the transfer data for one of the users individually). Since such situations are realistic, functionality is needed to display all "unacknowledged transfers" (transactions recorded for only one user) and to resolve such problems.
+
+Below is a series of exercises that you can do one at a time to solve the task.
 
 # Chapter IV
-### Exercise 00 – Sum of Digits
+### Exercise 00 — Models
 
-|Exercise 00: Sum of Digits||
-|------|------|
-| Turn-in directory | ex00 |
-| Files to turn-in |	Program.java |
-| **Allowed** | |
-| Input/Output | System.out|
-| Types |	Primitive types |
-| Operators |	Standard operations of primitive types|
+Exercise 00: Models ||
+---|---
+Turn-in directory |	ex00
+Files to turn-in |	User.java, Transaction.java, Program.java
+**User classes can be employed, along with:**
+Types (+ all methods of these types) |	Integer, String, UUID, enumerations
 
-Java is a strictly typed programming language. The basic data types (boolean, character, integer, float) are represented in Java by eight primitive types: boolean, char, byte, short, int, long, float, double.
+Your first task is to develop basic domain models — namely, user and transaction classes.
 
-Working with the integer type.
+It is quite likely that different users in the system will have the same name. This problem should be solved by adding a special field for a user's unique ID. This ID can be any integer. The specific logic for creating the ID is described in the next exercise.
 
-Calculating the sum of the digits of a six-digit int number (the value of the number is set directly in the code by explicitly initializing the number variable). 
+Thus, the following set of states (fields) is typical for the User class:
 
-Example of program operation for number 479598:
-```
-$ java Program
-  42
-```
+- Identifier,
+- User name,
+- Balance.
+
+The Transaction class describes a money transfer between two users. A unique identifier should also be defined here. Since the number of such transactions can be very large, we define the identifier as a UUID string. Thus, the following set of states (fields) is typical for the Transaction class:
+- Identifier,
+- Recipient (user type),
+- Sender (user type),
+- Transfer category (debit, credit),
+- Transfer amount.
+
+It is necessary to check the user's initial balance (it cannot be negative), as well as the balance for outgoing (only negative amounts) and incoming (only positive amounts) transactions (use of get/set methods).
+
+An example of the use of such classes should be included in the Program file (creation, initialization, printing the object contents to a console). All data for class fields must be hard-coded in the Program.
 
 # Chapter V
-### Exercise 01 – Really Prime Number
+### Exercise 01 – ID Generator
 
-|Exercise 01: Really Prime Number||
-|------|------|
-| Turn-in directory |	ex01 |
-| Files to turn-in |	Program.java |
-| **Allowed** | |
-|Input/Output	| System.out, System.err, Scanner(System.in) |
-| Types |	Primitive types |
-| Operators |	Standard operations of primitive types, conditions, loops |
+Exercise 01: ID Generator||
+---|---
+Turn-in directory |	ex01
+Files to turn-in |	UserIdsGenerator.java, User.java, Program.java
+**All permissions from the previous exercise can be used**
 
-According to the Böhm-Jacopini theorem, any algorithm can be written using three statements: sequence, selection, and iteration.
+Make sure that each user ID is unique. To do this, create the UserIdsGenerator class. The behavior of the object of this class defines the functionality for generating user IDs.
 
-Using these statements in Java, you must determine whether the input number is a prime number. A prime is a number that has no divisors other than itself and 1.
+Modern database management systems support auto-increment principle, where each new ID is the value of the previously generated ID +1.
+Thus, the UserIdsGenerator class contains the last generated ID as its state. The behavior of UserIdsGenerator is defined by the int generateId() method, which returns a newly generated ID each time it is called.
 
-The program will take the number typed on the keyboard as input and display the result of the test to see if this number is a prime.  In addition, the program outputs the number of steps (iterations) required to perform the check. In this task, an iteration is a single comparison operation. 
+An example of using such classes is contained in the program file (creation, initialization, printing object contents to a console).
 
-For negative numbers, 0 and 1, display the message IllegalArgument and exit the program with the code -1.
+**Notes**:
 
-Example of program operation:
+- Make sure that only one UserIdsGenerator object exists (see the Singleton pattern). It is required because the existence of multiple objects of this class cannot guarantee that all user identifiers are unique.
 
-```
-$ java Program
--> 169
-   false 12
+- The user identifier must be read-only because it is initialized only once (when the object is created) and cannot be changed later during program execution.
 
-$ java Program
--> 113
-   true 10
-
-$ java Program
--> 42
-   false 1
-
-$ java Program
--> -100 
-   Illegal Argument
+- Temporary logic for identifier initialization should be added to the User class constructor:
+```java
+public User(...) {
+	this.id = UserIdsGenerator.getInstance().generateId();
+}
 ```
 
 # Chapter VI
-### Exercise 02 – Endless Sequence (or not?)
+### Exercise 02 – List of Users
 
-|Exercise 02: Endless Sequence (or not?)||
-|------|------|
-Turn-in directory |	ex02
-Files to turn-in |	Program.java
-**Allowed**
-Input/Output |	System.out, System.err, Scanner(System.in)
-Types |	Primitive types
-Operators |	Standard operations of primitive types, conditions, loops
+Exercise 02: List of Users||
+---|---
+Turn-in directory	| ex02
+Files to turn-in |	UsersList.java, UsersArrayList.java, User.java,Program.java, etc.
+**All permissions from the previous exercise  + throw can be used.**
 
-Today you are Google. 
+Now we need to implement some functionality for saving users while the program is running. 
 
-You have to count the queries related to coffee preparation that users of our search system make at any given moment. Obviously, the sequence of queries is infinite. It is impossible to store these queries and count them later. 
+Currently, your application does not have any persistent storage (such as a file system or database). However, we want to avoid making your logic dependent on the user storage implementation method. To provide more flexibility, we define a UsersList interface that describes the following behavior
 
-But there is a solution — process the flow of queries. Why should we waste our resources on all queries if we are only interested in one particular feature of this sequence of queries?  Let's assume that each query is a natural number other than 0 and 1. A query is related to making coffee only if the sum of the digits of the number (query) is a prime number.
+- Add a user;
+- Get a user by ID;
+- Get a user by index;
+- Get number of users.
 
-So we need to implement a program that counts the number of elements for a given set of numbers whose sum of digits is a prime number.
+This interface will allow you to develop the business logic of your application so that a specific storage implementation does not affect other system components.
 
-To keep it simple, let's assume that this potentially infinite sequence of queries is still limited, and that the last element of the sequence is number 42.
+We will also implement a UsersArrayList class that implements the UsersList interface.
 
-This task guarantees that the input data is absolutely correct.
+This class will use an array to store user data. The default size of the array is 10. When the array is full, its size is increased by half. The user-add method puts an object of type User into the first empty cell of the array.
 
-Example of how the program works:
+If an attempt is made to retrieve a user with a non-existent ID, a non-checked UserNotFoundException must be thrown.
 
-```
-$ java Program
--> 198131
--> 12901212
--> 11122
--> 42
-   Count of coffee-request – 2
-```
+An example of using such classes is included in the program file (creating, initializing, printing object contents to a console).
+
+**Note**:<br>
+Nested `ArrayList<T>` Java class has the same structure. By modeling behavior of this class on your own, you will learn how to use mechanisms of this standard library class. 
 
 # Chapter VII
-### Exercise 03 – A Little Bit of Statistics
-Exercise 03: A Little Bit of Statistics ||
+### Exercise 03 — List of Transactions
+
+Exercise 03: List of Transactions||
 ---|---
 Turn-in directory |	ex03
-Files to turn-in |	Program.java
-**Allowed**
-Input/Output | System.out, System.err, Scanner(System.in)
-Types |	Primitive types, String
-Operators	| Standard operations of primitive types, conditions, loops
-Methods |	String::equals
+Files to turn-in | TransactionsList.java, TransactionsLinkedList.java, User.java, Program.java, etc.
+**All permissions from the previous exercise can be used**
 
-When developing enterprise systems, you often need to collect various types of statistics. And the customer always wants such analysis to be illustrative. Who needs cold, dry numbers? 
+Unlike users, a list of transactions requires a special implementation approach. Since the number of transaction creation operations can be very large, we need a storage method to avoid a costly array size extension. 
 
-Educational institutions and online schools are often this type of customer. Now you need to implement functionality to visualize student progress. The customer wants to see a graph that shows the change in student progress over several weeks. 
+In this task, we offer you to create TransactionsList interface describing the following behavior:
+- Add a transaction;
+- Remove a transaction by ID (in this case, UUID string identifier is used);
+- Transform into array (ex. Transaction[] toArray()).
 
-The customer evaluates this progress as a minimum grade for five tests within each week. Each test can be scored between 1 and 9.
+A list of transactions shall be implemented as a linked list (LinkedList) in TransactionsLinkedList class. Therefore, each transaction shall contain a field with a link to the next transaction object.
+If an attempt is made to remove a transaction with non-existent ID, TransactionNotFoundException runtime exception must be thrown.
+An example of use of such classes shall be contained in Program file (creation, initialization, printing object content on a console).
 
-The maximum number of weeks for analysis is 18. Once the program has obtained information for each week, it displays the graph on the console to show the minimum grades for a particular week.
-
-And we still assume that 42 is the limit of input data. 
-
-The exact guaranteed number of tests in a week is 5.
-
-However, the order of the weekly data entry is not guaranteed, so the data of week 1 can be entered after the data of week 2. If the order of data entry is wrong, an IllegalArgument message is displayed and the program is terminated with a -1 code.
-
-**Note**:
-
-1.	There are many ways to store information, and arrays are just one of them. Use a different method for storing student test data without using arrays.
-2.	Concatenating strings often results in unexpected program behavior. If there are many iterations of a concatenation operation in a cycle for a single variable, an application can slow down significantly. Therefore, we should not use string concatenation inside a loop to generate a result.
-
-Example of program operation:
-
-```
-$ java Program
--> Week 1
--> 4 5 2 4 2
--> Week 2
--> 7 7 7 7 6
--> Week 3
--> 4 3 4 9 8
--> Week 4
--> 9 9 4 6 7
--> 42
-Week 1 ==>
-Week 2 ======>
-Week 3 ===>
-Week 4 ====>
-```
+**Note**:<br>
+- We need to add transactions field of TransactionsList type to User class so that each user can store the list of their transactions.
+- A transaction must be added with a SINGLE operation (O(1)).
+- `LinkedList<T>` nested Java class has the same structure, a bidirectional linked list.
 
 # Chapter VIII
-### Exercise 04 – A Bit More of Statistics
-Exercise 04: A Bit More of Statistics ||
+### Exercise 04 – Business Logic
+
+Exercise 04: Business Logic||
 ---|---
-Turn-in directory	| ex04
-Files to turn-in |	Program.java
-**Allowed**
-Input/Output |	System.out, System.err, Scanner(System.in)
-Types | Primitive types, String, arrays
-Operators	| Standard operations of primitive types, conditions, loops
-Methods	| String::equals, String::toCharArray, String::length
+Turn-in directory |	ex04
+Files to turn-in |	TransactionsService.java, Program.java, etc.
+**All permissions from the previous exercise can be used**
 
-Did you know that you can use frequency analysis to decode poorly encrypted text?
+The business logic level of the application is located in service classes. Such classes contain basic system algorithms, automated processes, etc. These classes are usually designed according to the facade pattern, which can encapsulate the behavior of several classes.
 
- Check "Frequency_analysis" in [Wikipedia](https://en.wikipedia.org/wiki/Frequency_analysis).
+In this case, the TransactionsService class must contain a UserList type field for user interaction and provide the following functionality
+- Add a user;
+- Get a user's balance.
+- Perform a transfer transaction (user IDs and transfer amount are specified). In this case, two transactions of type DEBIT/CREDIT are created and added to the receiver and sender. The IDs of both transactions must be the same;
+- Get transfers of a specific user (an ARRAY of transfers is returned). Remove a transaction by ID for a specific user (transaction ID and user ID are specified);
+- Validate transactions (returns an ARRAY of unpaired transactions).
 
-Feel like a hacker and implement a program to count the occurrences of a character in a text. 
+In case of an attempt to transfer the amount exceeding the user's remaining balance, the IllegalTransactionException runtime exception must be thrown.
 
-We like visual clarity. Therefore, the program will display the results in a histogram. This graph will show the 10 most common characters in descending order. 
-
-If characters occur the same number of times, they should be sorted in a lexicographic order.
-
-Each character can occur many times in a text. For this reason, the graph should be scalable. The maximum height of the displayed graph is 10, and the minimum is 0. 
-
-The input data for the program is a string with a single "\n" character at the end (so a single long string can be used as input).
-
-It is assumed that each input character can be contained in a char variable (Unicode BMP; for example, the code of the letter "S" is 0053, the maximum code value is 65535).
-
-The maximum number of character occurrences is 999.
-
-**Note**: this problem must be solved without multiple iterations over the source text (sorting and removing repetitions), because these methods will slow down the application significantly. Use other methods of information processing.
-
-Example of program operation:
-
-```
-$ java Program
-
--> AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSSSDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDWEWWKFKKDKKDSKAKLSLDKSKALLLLLLLLLLRTRTETWTWWWWWWWWWWOOOOOOO42
-
- 36
-  #  35
-  #   #
-  #   #  27
-  #   #   #
-  #   #   #
-  #   #   #
-  #   #   #  14  12
-  #   #   #   #   #   9
-  #   #   #   #   #   #   7   4
-  #   #   #   #   #   #   #   #   2   2
-  D   A   S   W   L   K   O   T   E   R
-```
+An example of using such classes is included in the program file (creation, initialization, printing object contents to a console).
 
 # Chapter IX
-### Exercise 05 – Schedule
+### Exercise 05 — Menu
 
-Exercise 05: Schedule ||
+Exercise 05: Menu||
 ---|---
-Turn-in directory	| ex05
-Files to turn-in |Program.java
-**Allowed**
-Input/Output | System.out, System.err, Scanner(System.in)
-Types |	Primitive types, String, arrays
-Operators	| Standard operations of primitive types, conditions, loops
-Methods |	String::equals, String::toCharArray, String::length
+Turn-in directory |	ex05
+Files to turn-in |	Menu.java, Program.java, etc.
+**All permissions from the previous exercise can be used, as well as try/catch**
 
-You've just become a great hacker, but your client comes back to you with another task. This time, they need to be able to maintain a class schedule for their educational institution. The client opens a school in September 2020. So you need to implement the MVP version of the project for that month only. 
+As a result, you should have a working application with a console menu. The menu functionality must be implemented in the appropriate class with a link field to TransactionsService.
 
-You need to be able to create a list of students and specify the time and weekdays for classes. Classes can be held any day of the week between 13:00 and 18:00. Multiple classes may be held on a single day. However, the total number of classes per week cannot exceed 10.
+Each menu item must be accompanied by the number of the command that a user enters to invoke an action.
 
-The maximum number of students in a class is also 10. Maximum length of student name is 10 (no spaces).
+The application must support two startup modes — production (default mode) and dev (where transfer information for a specific user can be removed by user ID and a function that checks the validity of all transfers can be executed). 
 
-You should also provide a way to record student attendance. To do this you need to specify the time and date of the class next to each student's name and the attendance status (HERE, NOT_HERE). You do not need to record attendance for all classes in one month.
+If an exception is thrown, a message containing information about the error is displayed and the user is provided with an opportunity to enter valid data.
 
-Therefore, the life cycle of the application is as follows:
-1. Create a list of students.
-2. Fill a timetable — each class (time, day of the week) is entered in a separate row.
-3. Record attendance.
-4. Display the timetable in tabular form with attendance status.
+The application operation scenario is as follows (the program must carefully follow this output example):
 
-Each stage of application operation is separated by "." (period). Absolute correctness of data is guaranteed, except for the sequential order of classes when filling the timetable.
+```
+$ java Program --profile=dev
 
-Example of how the program works:
-
-![program](misc/images/program.png)
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 1
+Enter a user name and a balance
+-> Jonh 777
+User with id = 1 is added
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 1
+Enter a user name and a balance
+-> Mike 100
+User with id = 2 is added
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 3
+Enter a sender ID, a recipient ID, and a transfer amount
+-> 1 2 100
+The transfer is completed
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 3
+Enter a sender ID, a recipient ID, and a transfer amount
+-> 1 2 150
+The transfer is completed
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 3
+Enter a sender ID, a recipient ID, and a transfer amount
+-> 1 2 50
+The transfer is completed
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 2
+Enter a user ID
+-> 2
+Mike - 400
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 4
+Enter a user ID
+-> 1
+To Mike(id = 2) -100 with id = cc128842-2e5c-4cca-a44c-7829f53fc31f
+To Mike(id = 2) -150 with id = 1fc852e7-914f-4bfd-913d-0313aab1ed99
+TO Mike(id = 2) -50 with id = ce183f49-5be9-4513-bd05-8bd82214eaba
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 5
+Enter a user ID and a transfer ID
+-> 1 1fc852e7-914f-4bfd-913d-0313aab1ed99
+Transfer To Mike(id = 2) 150 removed
+---------------------------------------------------------
+1. Add a user
+2. View user balances
+3. Perform a transfer
+4. View all transactions for a specific user
+5. DEV – remove a transfer by ID
+6. DEV – check transfer validity
+7. Finish execution
+-> 6
+Check results:
+Mike(id = 2) has an unacknowledged transfer id = 1fc852e7-914f-4bfd-913d-0313aab1ed99 from John(id = 1) for 150
+```
