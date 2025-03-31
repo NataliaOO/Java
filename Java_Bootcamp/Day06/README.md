@@ -1,10 +1,6 @@
 # Day 06 — Java bootcamp
 ### JUnit/Mockito
 
-*Takeaways: Today you will learn the basics of module and integration testing.*
-
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
-
 # Contents
 1. [Chapter I](#chapter-i) \
   1.1. [Preamble](#preamble)
@@ -56,7 +52,6 @@ Here are some best practices for module and integration testing:
 - Read the examples carefully. They may require things not specified in the subject.
 - Use System.out for output.
 - And may the Force be with you!
-- Never leave for tomorrow what you can do today. ;)
 
 # Chapter III
 ### Rules of the Day
